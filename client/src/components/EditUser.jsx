@@ -1,34 +1,19 @@
 import { useState, useEffect } from "react";
+import { editUser, getUser } from "../service/api";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { FormControl, FormGroup, Input, InputLabel, Typography, styled, Button } from "@mui/material";
-
-import { editUser, getUser } from '../service/api';
-import { useNavigate, useParams } from 'react-router-dom';
-
-
-const Container = styled(FormGroup)`
-    width: 50%;
-    margin: 5% auto 0 auto;
-    & > div {
-        margin-top: 20px;
-    }
-`;
-
-const defaultValue = {
-    name: '',
-    username: '',
-    email: '',
-    phone: ''
-};
-
-const EditUser = () => {
-
-    const [user, setUser] = useState(defaultValue);
+function EditUser() {
+    const [user, setUser] = useState({
+        name: "",
+        username: "",
+        email: "",
+        phone: "",
+    });
 
     const navigate = useNavigate();
 
     const { id } = useParams();
-    
+
     useEffect(() => {
         loadUserDetails();
     }, []);
@@ -44,33 +29,43 @@ const EditUser = () => {
 
     const editUserDetails = async () => {
         await editUser(user, id);
-        navigate('/all');
+        navigate("/all");
     };
 
     return (
-        <Container>
-            <Typography variant="h4">Edit User</Typography>
-            <FormControl>
-                <InputLabel>Name</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="name" value={user.name} />
-            </FormControl>
-            <FormControl>
-                <InputLabel>Username</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="username" value={user.username} />
-            </FormControl>
-            <FormControl>
-                <InputLabel>Email</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="email" value={user.email} />
-            </FormControl>
-            <FormControl>
-                <InputLabel>Phone</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="phone" value={user.phone} />
-            </FormControl>
-            <FormControl>
-                <Button variant="contained" onClick={() => editUserDetails()}>Edit User</Button>
-            </FormControl>
-        </Container>
+        <div>
+            <h4>Edit User</h4>
+            <form>
+                <input
+                    onChange={(e) => onValueChange(e)}
+                    name="name"
+                    placeholder="Name"
+                    value={user.name}
+                />
+                <input
+                    onChange={(e) => onValueChange(e)}
+                    name="username"
+                    placeholder="UserName"
+                    value={user.username}
+                />
+                <input
+                    onChange={(e) => onValueChange(e)}
+                    name="email"
+                    placeholder="E-mail"
+                    value={user.email}
+                />
+                <input
+                    onChange={(e) => onValueChange(e)}
+                    name="phone"
+                    placeholder="Phone"
+                    value={user.phone}
+                />
+                <button variant="contained" onClick={() => editUserDetails()}>
+                    Edit User
+                </button>
+            </form>
+        </div>
     );
-};
+}
 
 export default EditUser;

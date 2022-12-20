@@ -1,8 +1,4 @@
-
-
-
-
-const Home = () => {
+function Home() {
     return (
         <p>Home</p>
     );
